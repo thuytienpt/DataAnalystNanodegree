@@ -7,7 +7,7 @@ from pprint import pprint
 import json
 
 OSMFILE = 'singapore.osm'
-tag_street , = 'addr:street', 
+tag_street, = 'addr:street',
 
 street_type_re = re.compile(r'\b[^ \d)]+\.?$', re.IGNORECASE)
 number_house_re = r'(.*#([\d-]+)|(^\d+)),? '
@@ -44,7 +44,8 @@ def audit_street_type(street_types, street_name):
 
 
 def audit_street(osmfile):
-    return reduce(audit_street_type, parse_tag(osmfile, tag_street), defaultdict(set))
+    return reduce(audit_street_type,
+                  parse_tag(osmfile, tag_street), defaultdict(set))
 
 
 def get_type(street_name):
@@ -61,6 +62,9 @@ def update_type(street_name):
 
 
 def clean_redundant(street_name):
+    """
+    Clean house number, area, break line characters from street name
+    """
     street_name = re.sub(number_house_re, '', street_name)
     return re.sub(area_re, '', street_name).title().replace('\n', '')
 

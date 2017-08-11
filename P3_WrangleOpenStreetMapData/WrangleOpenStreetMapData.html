@@ -11941,19 +11941,19 @@ I also present bits of the code that I used to tackle with them (the code that f
 <span class="k">LIMIT</span> <span class="mi">10</span><span class="p">;</span>
 </pre></div>
 <div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">-------------------------------+--------+</span>
-    <span class="o">|</span> <span class="n">Amenity</span>                       <span class="o">|</span> <span class="n">Total</span>  <span class="o">|</span>
-    <span class="o">+</span><span class="c1">-------------------------------+--------+</span>
-    <span class="o">|</span> <span class="n">restaurant</span>                    <span class="o">|</span> <span class="mi">2149</span>   <span class="o">|</span>
-    <span class="o">|</span> <span class="n">atm</span>                           <span class="o">|</span> <span class="mi">823</span>    <span class="o">|</span>
-    <span class="o">|</span> <span class="n">place_of_worship</span>              <span class="o">|</span> <span class="mi">587</span>    <span class="o">|</span>
-    <span class="o">|</span> <span class="n">cafe</span>                          <span class="o">|</span> <span class="mi">545</span>    <span class="o">|</span>
-    <span class="o">|</span> <span class="n">parking</span>                       <span class="o">|</span> <span class="mi">532</span>    <span class="o">|</span>
-    <span class="o">|</span> <span class="n">fast_food</span>                     <span class="o">|</span> <span class="mi">409</span>    <span class="o">|</span>
-    <span class="o">|</span> <span class="n">taxi</span>                          <span class="o">|</span> <span class="mi">335</span>    <span class="o">|</span>
-    <span class="o">|</span> <span class="n">bank</span>                          <span class="o">|</span> <span class="mi">325</span>    <span class="o">|</span>
-    <span class="o">|</span> <span class="n">toilets</span>                       <span class="o">|</span> <span class="mi">226</span>    <span class="o">|</span>
-    <span class="o">|</span> <span class="n">shelter</span>                       <span class="o">|</span> <span class="mi">208</span>    <span class="o">|</span>
-    <span class="o">+</span><span class="c1">-------------------------------+--------+</span>
+<span class="o">|</span> <span class="n">Amenity</span>                       <span class="o">|</span> <span class="n">Total</span>  <span class="o">|</span>
+<span class="o">+</span><span class="c1">-------------------------------+--------+</span>
+<span class="o">|</span> <span class="n">restaurant</span>                    <span class="o">|</span> <span class="mi">2149</span>   <span class="o">|</span>
+<span class="o">|</span> <span class="n">atm</span>                           <span class="o">|</span> <span class="mi">823</span>    <span class="o">|</span>
+<span class="o">|</span> <span class="n">place_of_worship</span>              <span class="o">|</span> <span class="mi">587</span>    <span class="o">|</span>
+<span class="o">|</span> <span class="n">cafe</span>                          <span class="o">|</span> <span class="mi">545</span>    <span class="o">|</span>
+<span class="o">|</span> <span class="n">parking</span>                       <span class="o">|</span> <span class="mi">532</span>    <span class="o">|</span>
+<span class="o">|</span> <span class="n">fast_food</span>                     <span class="o">|</span> <span class="mi">409</span>    <span class="o">|</span>
+<span class="o">|</span> <span class="n">taxi</span>                          <span class="o">|</span> <span class="mi">335</span>    <span class="o">|</span>
+<span class="o">|</span> <span class="n">bank</span>                          <span class="o">|</span> <span class="mi">325</span>    <span class="o">|</span>
+<span class="o">|</span> <span class="n">toilets</span>                       <span class="o">|</span> <span class="mi">226</span>    <span class="o">|</span>
+<span class="o">|</span> <span class="n">shelter</span>                       <span class="o">|</span> <span class="mi">208</span>    <span class="o">|</span>
+<span class="o">+</span><span class="c1">-------------------------------+--------+</span>
 </pre></div>
 <h3 id="Top-10-Fast-food-restaurant-with-the-most-branches">Top 10 Fast food restaurant with the most branches<a class="anchor-link" href="#Top-10-Fast-food-restaurant-with-the-most-branches">&#182;</a></h3><div class="highlight"><pre><span></span><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="n">nodes_tags</span><span class="p">.</span><span class="n">value</span> <span class="k">as</span> <span class="n">Name</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">as</span> <span class="n">Total</span>
 <span class="k">FROM</span> <span class="n">nodes_tags</span>
@@ -11963,21 +11963,20 @@ I also present bits of the code that I used to tackle with them (the code that f
 <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">nodes_tags</span><span class="p">.</span><span class="n">value</span>
 <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">Total</span> <span class="k">DESC</span>
 <span class="k">LIMIT</span> <span class="mi">10</span><span class="p">;</span>
-</pre></div>
-<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">-------------------------------+--------+</span>
-    <span class="o">|</span> <span class="n">Name</span>                          <span class="o">|</span> <span class="n">Total</span>  <span class="o">|</span>
-    <span class="o">+</span><span class="c1">-------------------------------+--------+</span>
-    <span class="o">|</span> <span class="n">McDonald</span><span class="s1">&#39;s                    | 90     |</span>
-<span class="s1">    | KFC                           | 67     |</span>
-<span class="s1">    | Subway                        | 33     |</span>
-<span class="s1">    | Burger King                   | 23     |</span>
-<span class="s1">    | Domino&#39;</span><span class="n">s</span> <span class="n">Pizza</span>                <span class="o">|</span> <span class="mi">8</span>      <span class="o">|</span>
-    <span class="o">|</span> <span class="n">Pizza</span> <span class="n">Hut</span>                     <span class="o">|</span> <span class="mi">8</span>      <span class="o">|</span>
-    <span class="o">|</span> <span class="n">Long</span> <span class="n">John</span> <span class="n">Silver</span><span class="s1">&#39;s            | 6      |</span>
-<span class="s1">    | McDonalds                     | 5      |</span>
-<span class="s1">    | Mcdonald&#39;</span><span class="n">s</span>                    <span class="o">|</span> <span class="mi">4</span>      <span class="o">|</span>
-    <span class="o">|</span> <span class="n">Mos</span> <span class="n">Burger</span>                    <span class="o">|</span> <span class="mi">4</span>      <span class="o">|</span>
-    <span class="o">+</span><span class="c1">-------------------------------+--------+</span>
+<span class="o">+</span><span class="c1">-------------------------------+--------+</span>
+<span class="o">|</span> <span class="n">Name</span>                          <span class="o">|</span> <span class="n">Total</span>  <span class="o">|</span>
+<span class="o">+</span><span class="c1">-------------------------------+--------+</span>
+<span class="o">|</span> <span class="n">McDonald</span><span class="s1">&#39;s                    | 90     |</span>
+<span class="s1">| KFC                           | 67     |</span>
+<span class="s1">| Subway                        | 33     |</span>
+<span class="s1">| Burger King                   | 23     |</span>
+<span class="s1">| Domino&#39;</span><span class="n">s</span> <span class="n">Pizza</span>                <span class="o">|</span> <span class="mi">8</span>      <span class="o">|</span>
+<span class="o">|</span> <span class="n">Pizza</span> <span class="n">Hut</span>                     <span class="o">|</span> <span class="mi">8</span>      <span class="o">|</span>
+<span class="o">|</span> <span class="n">Long</span> <span class="n">John</span> <span class="n">Silver</span><span class="s1">&#39;s            | 6      |</span>
+<span class="s1">| McDonalds                     | 5      |</span>
+<span class="s1">| Mcdonald&#39;</span><span class="n">s</span>                    <span class="o">|</span> <span class="mi">4</span>      <span class="o">|</span>
+<span class="o">|</span> <span class="n">Mos</span> <span class="n">Burger</span>                    <span class="o">|</span> <span class="mi">4</span>      <span class="o">|</span>
+<span class="o">+</span><span class="c1">-------------------------------+--------+</span>
 </pre></div>
 <p>We can see a quite bit of dirty data from the above query. For instance, there are at least three diversity names for <code>McDonald's</code>.</p>
 <h3 id="Top-10-Coffee-shop-with-the-most-branches">Top 10 Coffee shop with the most branches<a class="anchor-link" href="#Top-10-Coffee-shop-with-the-most-branches">&#182;</a></h3><div class="highlight"><pre><span></span><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="n">nodes_tags</span><span class="p">.</span><span class="n">value</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">as</span> <span class="n">Total</span>
@@ -11988,8 +11987,7 @@ I also present bits of the code that I used to tackle with them (the code that f
 <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">nodes_tags</span><span class="p">.</span><span class="n">value</span>
 <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">Total</span> <span class="k">DESC</span>
 <span class="k">LIMIT</span> <span class="mi">10</span><span class="p">;</span>
-</pre></div>
-<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">-------------------------------+--------+</span>
+<span class="o">+</span><span class="c1">-------------------------------+--------+</span>
 <span class="o">|</span> <span class="n">Name</span>                          <span class="o">|</span> <span class="n">Total</span>  <span class="o">|</span>
 <span class="o">+</span><span class="c1">-------------------------------+--------+</span>
 <span class="o">|</span> <span class="n">Starbucks</span>                     <span class="o">|</span> <span class="mi">57</span>     <span class="o">|</span>
@@ -12010,17 +12008,15 @@ I also present bits of the code that I used to tackle with them (the code that f
 <span class="k">WHERE</span> <span class="k">key</span><span class="o">=</span><span class="s1">&#39;shop&#39;</span>
 <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">value</span>
 <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">num</span> <span class="k">DESC</span> 
-<span class="k">LIMIT</span> <span class="mi">5</span><span class="p">;</span>
-</pre></div>
-<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">-------------------------------+--------+</span>
-    <span class="o">|</span> <span class="n">Shop</span>                          <span class="o">|</span> <span class="n">Total</span>  <span class="o">|</span>
-    <span class="o">+</span><span class="c1">-------------------------------+--------+</span>
-    <span class="o">|</span> <span class="n">yes</span>                           <span class="o">|</span> <span class="mi">661</span>    <span class="o">|</span>
-    <span class="o">|</span> <span class="n">supermarket</span>                   <span class="o">|</span> <span class="mi">319</span>    <span class="o">|</span>
-    <span class="o">|</span> <span class="n">convenience</span>                   <span class="o">|</span> <span class="mi">304</span>    <span class="o">|</span>
-    <span class="o">|</span> <span class="n">clothes</span>                       <span class="o">|</span> <span class="mi">124</span>    <span class="o">|</span>
-    <span class="o">|</span> <span class="n">beauty</span>                        <span class="o">|</span> <span class="mi">122</span>    <span class="o">|</span>
-    <span class="o">+</span><span class="c1">-------------------------------+--------+</span>
+<span class="o">+</span><span class="c1">-------------------------------+--------+</span>
+<span class="o">|</span> <span class="n">Shop</span>                          <span class="o">|</span> <span class="n">Total</span>  <span class="o">|</span>
+<span class="o">+</span><span class="c1">-------------------------------+--------+</span>
+<span class="o">|</span> <span class="n">yes</span>                           <span class="o">|</span> <span class="mi">661</span>    <span class="o">|</span>
+<span class="o">|</span> <span class="n">supermarket</span>                   <span class="o">|</span> <span class="mi">319</span>    <span class="o">|</span>
+<span class="o">|</span> <span class="n">convenience</span>                   <span class="o">|</span> <span class="mi">304</span>    <span class="o">|</span>
+<span class="o">|</span> <span class="n">clothes</span>                       <span class="o">|</span> <span class="mi">124</span>    <span class="o">|</span>
+<span class="o">|</span> <span class="n">beauty</span>                        <span class="o">|</span> <span class="mi">122</span>    <span class="o">|</span>
+<span class="o">+</span><span class="c1">-------------------------------+--------+</span>
 </pre></div>
 <h3 id="Top-10-Convenience-shop-with-the-most-branches">Top 10 Convenience shop with the most branches<a class="anchor-link" href="#Top-10-Convenience-shop-with-the-most-branches">&#182;</a></h3><div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="n">nodes_tags</span><span class="p">.</span><span class="n">value</span> <span class="k">AS</span> <span class="n">NAME</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">as</span> <span class="n">Total</span>
 <span class="k">FROM</span> <span class="n">nodes_tags</span>
@@ -12030,21 +12026,20 @@ I also present bits of the code that I used to tackle with them (the code that f
 <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">nodes_tags</span><span class="p">.</span><span class="n">value</span>
 <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">Total</span> <span class="k">DESC</span>
 <span class="k">LIMIT</span> <span class="mi">10</span><span class="p">;</span>
-</pre></div>
-<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">-------------------------------+--------+</span>
-    <span class="o">|</span> <span class="n">Name</span>                          <span class="o">|</span> <span class="n">Total</span>  <span class="o">|</span>
-    <span class="o">+</span><span class="c1">-------------------------------+--------+</span>
-    <span class="o">|</span> <span class="mi">7</span><span class="o">-</span><span class="n">Eleven</span>                      <span class="o">|</span> <span class="mi">105</span>    <span class="o">|</span>
-    <span class="o">|</span> <span class="n">Cheers</span>                        <span class="o">|</span> <span class="mi">22</span>     <span class="o">|</span>
-    <span class="o">|</span> <span class="mi">7</span> <span class="n">eleven</span>                      <span class="o">|</span> <span class="mi">17</span>     <span class="o">|</span>
-    <span class="o">|</span> <span class="mi">7</span> <span class="n">Eleven</span>                      <span class="o">|</span> <span class="mi">9</span>      <span class="o">|</span>
-    <span class="o">|</span> <span class="mi">7</span><span class="o">-</span><span class="n">eleven</span>                      <span class="o">|</span> <span class="mi">6</span>      <span class="o">|</span>
-    <span class="o">|</span> <span class="mi">7</span><span class="o">-</span><span class="mi">11</span>                          <span class="o">|</span> <span class="mi">4</span>      <span class="o">|</span>
-    <span class="o">|</span> <span class="n">Mini</span> <span class="n">Market</span>                   <span class="o">|</span> <span class="mi">4</span>      <span class="o">|</span>
-    <span class="o">|</span> <span class="n">I</span><span class="o">-</span><span class="n">Tec</span> <span class="n">Supermart</span>               <span class="o">|</span> <span class="mi">3</span>      <span class="o">|</span>
-    <span class="o">|</span> <span class="mi">7</span><span class="o">/</span><span class="mi">11</span>                          <span class="o">|</span> <span class="mi">2</span>      <span class="o">|</span>
-    <span class="o">|</span> <span class="mi">7</span><span class="n">Eleven</span>                       <span class="o">|</span> <span class="mi">2</span>      <span class="o">|</span>
-    <span class="o">+</span><span class="c1">-------------------------------+--------+</span>
+<span class="o">+</span><span class="c1">-------------------------------+--------+</span>
+<span class="o">|</span> <span class="n">Name</span>                          <span class="o">|</span> <span class="n">Total</span>  <span class="o">|</span>
+<span class="o">+</span><span class="c1">-------------------------------+--------+</span>
+<span class="o">|</span> <span class="mi">7</span><span class="o">-</span><span class="n">Eleven</span>                      <span class="o">|</span> <span class="mi">105</span>    <span class="o">|</span>
+<span class="o">|</span> <span class="n">Cheers</span>                        <span class="o">|</span> <span class="mi">22</span>     <span class="o">|</span>
+<span class="o">|</span> <span class="mi">7</span> <span class="n">eleven</span>                      <span class="o">|</span> <span class="mi">17</span>     <span class="o">|</span>
+<span class="o">|</span> <span class="mi">7</span> <span class="n">Eleven</span>                      <span class="o">|</span> <span class="mi">9</span>      <span class="o">|</span>
+<span class="o">|</span> <span class="mi">7</span><span class="o">-</span><span class="n">eleven</span>                      <span class="o">|</span> <span class="mi">6</span>      <span class="o">|</span>
+<span class="o">|</span> <span class="mi">7</span><span class="o">-</span><span class="mi">11</span>                          <span class="o">|</span> <span class="mi">4</span>      <span class="o">|</span>
+<span class="o">|</span> <span class="n">Mini</span> <span class="n">Market</span>                   <span class="o">|</span> <span class="mi">4</span>      <span class="o">|</span>
+<span class="o">|</span> <span class="n">I</span><span class="o">-</span><span class="n">Tec</span> <span class="n">Supermart</span>               <span class="o">|</span> <span class="mi">3</span>      <span class="o">|</span>
+<span class="o">|</span> <span class="mi">7</span><span class="o">/</span><span class="mi">11</span>                          <span class="o">|</span> <span class="mi">2</span>      <span class="o">|</span>
+<span class="o">|</span> <span class="mi">7</span><span class="n">Eleven</span>                       <span class="o">|</span> <span class="mi">2</span>      <span class="o">|</span>
+<span class="o">+</span><span class="c1">-------------------------------+--------+</span>
 </pre></div>
 <p>Here we can notice that 7-Eleven has the most locations. Moreover, this chain of convenience shop occupied 7 positions of 10 first ranks with different names.</p>
 <h3 id="Total-MRT/LRT-stations">Total MRT/LRT stations<a class="anchor-link" href="#Total-MRT/LRT-stations">&#182;</a></h3><div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="p">(</span><span class="n">nodes_tags</span><span class="p">.</span><span class="n">value</span><span class="p">))</span> <span class="k">as</span> <span class="n">total</span>
@@ -12052,10 +12047,9 @@ I also present bits of the code that I used to tackle with them (the code that f
     <span class="k">JOIN</span> <span class="p">(</span><span class="k">SELECT</span> <span class="k">DISTINCT</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">nodes_tags</span> <span class="k">WHERE</span> <span class="k">key</span><span class="o">=</span><span class="s1">&#39;station&#39;</span><span class="p">)</span> <span class="n">i</span>
     <span class="k">ON</span> <span class="n">nodes_tags</span><span class="p">.</span><span class="n">id</span><span class="o">=</span><span class="n">i</span><span class="p">.</span><span class="n">id</span>
 <span class="k">WHERE</span> <span class="n">nodes_tags</span><span class="p">.</span><span class="k">key</span><span class="o">=</span><span class="s1">&#39;name&#39;</span>
-</pre></div>
-<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">--------+</span>
-    <span class="o">|</span>  <span class="mi">130</span>   <span class="o">|</span>
-    <span class="o">+</span><span class="c1">--------+</span>
+<span class="o">+</span><span class="c1">--------+</span>
+<span class="o">|</span>  <span class="mi">130</span>   <span class="o">|</span>
+<span class="o">+</span><span class="c1">--------+</span>
 </pre></div>
 <h3 id="Top-5-Religions">Top 5 Religions<a class="anchor-link" href="#Top-5-Religions">&#182;</a></h3><div class="highlight"><pre><span></span><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="n">nodes_tags</span><span class="p">.</span><span class="n">value</span> <span class="k">as</span> <span class="n">Religion</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">as</span> <span class="n">Total</span>
 <span class="k">FROM</span> <span class="n">nodes_tags</span>
@@ -12065,16 +12059,15 @@ I also present bits of the code that I used to tackle with them (the code that f
 <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">nodes_tags</span><span class="p">.</span><span class="n">value</span>
 <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">Total</span> <span class="k">DESC</span>
 <span class="k">LIMIT</span> <span class="mi">5</span><span class="p">;</span>
-</pre></div>
-<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">-------------------------------+--------+</span>
-    <span class="o">|</span> <span class="n">Religion</span>                      <span class="o">|</span> <span class="n">Total</span>  <span class="o">|</span>
-    <span class="o">+</span><span class="c1">-------------------------------+--------+</span>
-    <span class="o">|</span> <span class="n">muslim</span>                        <span class="o">|</span> <span class="mi">414</span>    <span class="o">|</span>
-    <span class="o">|</span> <span class="n">christian</span>                     <span class="o">|</span> <span class="mi">83</span>     <span class="o">|</span>
-    <span class="o">|</span> <span class="n">buddhist</span>                      <span class="o">|</span> <span class="mi">25</span>     <span class="o">|</span>
-    <span class="o">|</span> <span class="n">hindu</span>                         <span class="o">|</span> <span class="mi">5</span>      <span class="o">|</span>
-    <span class="o">|</span> <span class="n">jewish</span>                        <span class="o">|</span> <span class="mi">3</span>      <span class="o">|</span>
-    <span class="o">+</span><span class="c1">-------------------------------+--------+</span>
+<span class="o">+</span><span class="c1">-------------------------------+--------+</span>
+<span class="o">|</span> <span class="n">Religion</span>                      <span class="o">|</span> <span class="n">Total</span>  <span class="o">|</span>
+<span class="o">+</span><span class="c1">-------------------------------+--------+</span>
+<span class="o">|</span> <span class="n">muslim</span>                        <span class="o">|</span> <span class="mi">414</span>    <span class="o">|</span>
+<span class="o">|</span> <span class="n">christian</span>                     <span class="o">|</span> <span class="mi">83</span>     <span class="o">|</span>
+<span class="o">|</span> <span class="n">buddhist</span>                      <span class="o">|</span> <span class="mi">25</span>     <span class="o">|</span>
+<span class="o">|</span> <span class="n">hindu</span>                         <span class="o">|</span> <span class="mi">5</span>      <span class="o">|</span>
+<span class="o">|</span> <span class="n">jewish</span>                        <span class="o">|</span> <span class="mi">3</span>      <span class="o">|</span>
+<span class="o">+</span><span class="c1">-------------------------------+--------+</span>
 </pre></div>
 <h3 id="The-percentage-of-the-given-postcode-for-most-popular-Amenity,-Shop,-Tourism-Types">The percentage of the given postcode for most popular Amenity, Shop, Tourism Types<a class="anchor-link" href="#The-percentage-of-the-given-postcode-for-most-popular-Amenity,-Shop,-Tourism-Types">&#182;</a></h3><div class="highlight"><pre><span></span><span class="n">sqlite</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="n">nodes_tags</span><span class="p">.</span><span class="n">value</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">as</span> <span class="n">Total</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">00</span> <span class="o">*</span> <span class="k">COUNT</span><span class="p">([</span><span class="n">pkey</span><span class="p">])</span><span class="o">/</span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">as</span> <span class="n">Percentage</span>
 <span class="k">FROM</span> <span class="n">nodes_tags</span>
@@ -12084,31 +12077,30 @@ I also present bits of the code that I used to tackle with them (the code that f
 <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">nodes_tags</span><span class="p">.</span><span class="n">value</span> 
 <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">Total</span> <span class="k">DESC</span> 
 <span class="k">LIMIT</span> <span class="mi">20</span><span class="p">;</span>
-</pre></div>
-<div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">-------------------------------+--------+---------------+</span>
-    <span class="o">|</span> <span class="n">Value</span>                         <span class="o">|</span> <span class="n">Total</span>  <span class="o">|</span> <span class="n">Percentage</span><span class="p">(</span><span class="o">%</span><span class="p">)</span> <span class="o">|</span>
-    <span class="o">+</span><span class="c1">-------------------------------+--------+---------------+</span>
-    <span class="o">|</span> <span class="n">restaurant</span>                    <span class="o">|</span> <span class="mi">2149</span>   <span class="o">|</span> <span class="mi">20</span>            <span class="o">|</span>
-    <span class="o">|</span> <span class="n">atm</span>                           <span class="o">|</span> <span class="mi">823</span>    <span class="o">|</span> <span class="mi">71</span>            <span class="o">|</span>
-    <span class="o">|</span> <span class="n">yes</span>                           <span class="o">|</span> <span class="mi">667</span>    <span class="o">|</span> <span class="mi">0</span>             <span class="o">|</span>
-    <span class="o">|</span> <span class="n">place_of_worship</span>              <span class="o">|</span> <span class="mi">587</span>    <span class="o">|</span> <span class="mi">2</span>             <span class="o">|</span>
-    <span class="o">|</span> <span class="n">cafe</span>                          <span class="o">|</span> <span class="mi">545</span>    <span class="o">|</span> <span class="mi">24</span>            <span class="o">|</span>
-    <span class="o">|</span> <span class="n">parking</span>                       <span class="o">|</span> <span class="mi">532</span>    <span class="o">|</span> <span class="mi">0</span>             <span class="o">|</span>
-    <span class="o">|</span> <span class="n">hotel</span>                         <span class="o">|</span> <span class="mi">441</span>    <span class="o">|</span> <span class="mi">74</span>            <span class="o">|</span>
-    <span class="o">|</span> <span class="n">fast_food</span>                     <span class="o">|</span> <span class="mi">409</span>    <span class="o">|</span> <span class="mi">9</span>             <span class="o">|</span>
-    <span class="o">|</span> <span class="n">taxi</span>                          <span class="o">|</span> <span class="mi">335</span>    <span class="o">|</span> <span class="mi">0</span>             <span class="o">|</span>
-    <span class="o">|</span> <span class="n">bank</span>                          <span class="o">|</span> <span class="mi">325</span>    <span class="o">|</span> <span class="mi">32</span>            <span class="o">|</span>
-    <span class="o">|</span> <span class="n">supermarket</span>                   <span class="o">|</span> <span class="mi">319</span>    <span class="o">|</span> <span class="mi">13</span>            <span class="o">|</span>
-    <span class="o">|</span> <span class="n">convenience</span>                   <span class="o">|</span> <span class="mi">304</span>    <span class="o">|</span> <span class="mi">6</span>             <span class="o">|</span>
-    <span class="o">|</span> <span class="n">attraction</span>                    <span class="o">|</span> <span class="mi">239</span>    <span class="o">|</span> <span class="mi">11</span>            <span class="o">|</span>
-    <span class="o">|</span> <span class="n">toilets</span>                       <span class="o">|</span> <span class="mi">226</span>    <span class="o">|</span> <span class="mi">0</span>             <span class="o">|</span>
-    <span class="o">|</span> <span class="n">shelter</span>                       <span class="o">|</span> <span class="mi">208</span>    <span class="o">|</span> <span class="mi">0</span>             <span class="o">|</span>
-    <span class="o">|</span> <span class="n">school</span>                        <span class="o">|</span> <span class="mi">179</span>    <span class="o">|</span> <span class="mi">12</span>            <span class="o">|</span>
-    <span class="o">|</span> <span class="n">fuel</span>                          <span class="o">|</span> <span class="mi">164</span>    <span class="o">|</span> <span class="mi">4</span>             <span class="o">|</span>
-    <span class="o">|</span> <span class="n">bar</span>                           <span class="o">|</span> <span class="mi">156</span>    <span class="o">|</span> <span class="mi">23</span>            <span class="o">|</span>
-    <span class="o">|</span> <span class="n">police</span>                        <span class="o">|</span> <span class="mi">141</span>    <span class="o">|</span> <span class="mi">5</span>             <span class="o">|</span>
-    <span class="o">|</span> <span class="n">food_court</span>                    <span class="o">|</span> <span class="mi">137</span>    <span class="o">|</span> <span class="mi">7</span>             <span class="o">|</span>
-    <span class="o">+</span><span class="c1">-------------------------------+--------+---------------+</span>
+<span class="o">+</span><span class="c1">-------------------------------+--------+---------------+</span>
+<span class="o">|</span> <span class="n">Value</span>                         <span class="o">|</span> <span class="n">Total</span>  <span class="o">|</span> <span class="n">Percentage</span><span class="p">(</span><span class="o">%</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">-------------------------------+--------+---------------+</span>
+<span class="o">|</span> <span class="n">restaurant</span>                    <span class="o">|</span> <span class="mi">2149</span>   <span class="o">|</span> <span class="mi">20</span>            <span class="o">|</span>
+<span class="o">|</span> <span class="n">atm</span>                           <span class="o">|</span> <span class="mi">823</span>    <span class="o">|</span> <span class="mi">71</span>            <span class="o">|</span>
+<span class="o">|</span> <span class="n">yes</span>                           <span class="o">|</span> <span class="mi">667</span>    <span class="o">|</span> <span class="mi">0</span>             <span class="o">|</span>
+<span class="o">|</span> <span class="n">place_of_worship</span>              <span class="o">|</span> <span class="mi">587</span>    <span class="o">|</span> <span class="mi">2</span>             <span class="o">|</span>
+<span class="o">|</span> <span class="n">cafe</span>                          <span class="o">|</span> <span class="mi">545</span>    <span class="o">|</span> <span class="mi">24</span>            <span class="o">|</span>
+<span class="o">|</span> <span class="n">parking</span>                       <span class="o">|</span> <span class="mi">532</span>    <span class="o">|</span> <span class="mi">0</span>             <span class="o">|</span>
+<span class="o">|</span> <span class="n">hotel</span>                         <span class="o">|</span> <span class="mi">441</span>    <span class="o">|</span> <span class="mi">74</span>            <span class="o">|</span>
+<span class="o">|</span> <span class="n">fast_food</span>                     <span class="o">|</span> <span class="mi">409</span>    <span class="o">|</span> <span class="mi">9</span>             <span class="o">|</span>
+<span class="o">|</span> <span class="n">taxi</span>                          <span class="o">|</span> <span class="mi">335</span>    <span class="o">|</span> <span class="mi">0</span>             <span class="o">|</span>
+<span class="o">|</span> <span class="n">bank</span>                          <span class="o">|</span> <span class="mi">325</span>    <span class="o">|</span> <span class="mi">32</span>            <span class="o">|</span>
+<span class="o">|</span> <span class="n">supermarket</span>                   <span class="o">|</span> <span class="mi">319</span>    <span class="o">|</span> <span class="mi">13</span>            <span class="o">|</span>
+<span class="o">|</span> <span class="n">convenience</span>                   <span class="o">|</span> <span class="mi">304</span>    <span class="o">|</span> <span class="mi">6</span>             <span class="o">|</span>
+<span class="o">|</span> <span class="n">attraction</span>                    <span class="o">|</span> <span class="mi">239</span>    <span class="o">|</span> <span class="mi">11</span>            <span class="o">|</span>
+<span class="o">|</span> <span class="n">toilets</span>                       <span class="o">|</span> <span class="mi">226</span>    <span class="o">|</span> <span class="mi">0</span>             <span class="o">|</span>
+<span class="o">|</span> <span class="n">shelter</span>                       <span class="o">|</span> <span class="mi">208</span>    <span class="o">|</span> <span class="mi">0</span>             <span class="o">|</span>
+<span class="o">|</span> <span class="n">school</span>                        <span class="o">|</span> <span class="mi">179</span>    <span class="o">|</span> <span class="mi">12</span>            <span class="o">|</span>
+<span class="o">|</span> <span class="n">fuel</span>                          <span class="o">|</span> <span class="mi">164</span>    <span class="o">|</span> <span class="mi">4</span>             <span class="o">|</span>
+<span class="o">|</span> <span class="n">bar</span>                           <span class="o">|</span> <span class="mi">156</span>    <span class="o">|</span> <span class="mi">23</span>            <span class="o">|</span>
+<span class="o">|</span> <span class="n">police</span>                        <span class="o">|</span> <span class="mi">141</span>    <span class="o">|</span> <span class="mi">5</span>             <span class="o">|</span>
+<span class="o">|</span> <span class="n">food_court</span>                    <span class="o">|</span> <span class="mi">137</span>    <span class="o">|</span> <span class="mi">7</span>             <span class="o">|</span>
+<span class="o">+</span><span class="c1">-------------------------------+--------+---------------+</span>
 </pre></div>
 
 </div>
@@ -12120,8 +12112,14 @@ I also present bits of the code that I used to tackle with them (the code that f
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Additional-Ideas">Additional Ideas<a class="anchor-link" href="#Additional-Ideas">&#182;</a></h2><hr>
 <ul>
-<li>Cleaning the dirty data (diversity names of the cafe, fast food restaurant, convenience shop) mentioned in the additional exploration section would make our queries more accurate.</li>
-<li>The percentage of the given postcode for most popular amenity, shop, tourism types are quite low. We can add the postal code for these place will provide extra value in the open street map. If the address is dirty or missing, we can get it from the postal code in Singapore mostly. </li>
+<li><p>Cleaning the dirty data (diversity names of the cafe, fast food restaurant, convenience shop) mentioned in the additional exploration section would make our queries more accurate.<br>
+  We can clean difference names to one name by a map like cleaning amenity. However, cleaning all dirty data has this issues can take much time, we can not know the correct name of almost them and find it on the Internet manually.<br>
+  We can consider about some automated scripts for that, such as scraping some specific websites provide info in Singapore and getting the most common names.</p>
+</li>
+<li><p>The percentage of the given postcode for most popular amenity, shop, tourism types are quite low. Adding the postal code for these places will provide extra value in the open street map. If the address is dirty or missing, we can get it from the postal code in Singapore mostly.<br>
+  This task is not indeed easy because of requiring for each user willingly adds postcode with correct format manually.<br>
+  However, I think it can be easier by using some Python library to get postcode from longitude and latitude (if wholly given to dataset).</p>
+</li>
 </ul>
 
 </div>

@@ -36,7 +36,14 @@ WAY_TAGS_FIELDS = ['id', 'key', 'value', 'type']
 WAY_NODES_FIELDS = ['id', 'node_id', 'position']
 
 
-def update_value(child):
+def clean_value(child):
+    """
+    Clean street name and amenity
+    Args:
+        child: a XML node
+    Returns:
+        node with cleaned data
+    """
     if child.attrib['k'] == 'amenity':
         return update_amenity(child.attrib['v'])
     if child.attrib['k'] == 'addr:street':
@@ -68,7 +75,7 @@ def shape_element(element,
                 node_tag['type'] = child.attrib['k'].split(':', 1)[0]
                 node_tag['key'] = child.attrib['k'].split(':', 1)[1]
                 node_tag['id'] = element.attrib['id']
-                node_tag['value'] = update_value(child)
+                node_tag['value'] = clean_value(child)
                 tags.append(node_tag)
             elif PROBLEMCHARS.match(child.attrib['k']):
                 continue
@@ -76,7 +83,7 @@ def shape_element(element,
                 node_tag['type'] = 'regular'
                 node_tag['key'] = child.attrib['k']
                 node_tag['id'] = element.attrib['id']
-                node_tag['value'] = update_value(child)
+                node_tag['value'] = clean_value(child)
                 tags.append(node_tag)
 
         return {'node': node_attribs, 'node_tags': tags}
@@ -96,7 +103,7 @@ def shape_element(element,
                     way_tag['type'] = child.attrib['k'].split(':', 1)[0]
                     way_tag['key'] = child.attrib['k'].split(':', 1)[1]
                     way_tag['id'] = element.attrib['id']
-                    way_tag['value'] = update_value(child)
+                    way_tag['value'] = clean_value(child)
                     tags.append(way_tag)
                 elif PROBLEMCHARS.match(child.attrib['k']):
                     continue
@@ -104,7 +111,7 @@ def shape_element(element,
                     way_tag['type'] = 'regular'
                     way_tag['key'] = child.attrib['k']
                     way_tag['id'] = element.attrib['id']
-                    way_tag['value'] = update_value(child)
+                    way_tag['value'] = clean_value(child)
                     tags.append(way_tag)
 
             elif child.tag == 'nd':
