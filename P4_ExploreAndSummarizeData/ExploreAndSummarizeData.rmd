@@ -9,6 +9,8 @@ library(ggplot2)
 library(dplyr)
 library(ggthemes)
 library(gridExtra)
+theme_set(theme_minimal(10) + 
+    theme(plot.title = element_text(face="bold", hjust=0.5)))
 ```
 
 ```{r echo=FALSE, Load_the_Data}
@@ -16,7 +18,7 @@ library(gridExtra)
 wine <- read.csv('wineQualityWhites.csv')
 ```
 
-This report explores the dataset containing 4,898 white wines with 11 variables on quantifying the chemical properties of each wine.
+This report explores the dataset containing quality and chemical properties in each wine for almost 5,000 observations.
 
 # Univariate Plots Section
 
@@ -27,9 +29,79 @@ forget to add a comment after each plot or closely-related group of plots!
 There should be multiple code chunks and text sections; the first one below is
 just to help you get started.
 
-```{r echo=FALSE, Univariate_Plots}
-
+```{r echo=FALSE, Dimension}
+dim(wine)
 ```
+```{r echo=FALSE, Structure}
+str(wine)
+```
+```{r echo=FALSE, summary}
+summary(wine)
+```
+
+
+Create a new variable quality.range for rating the quality of the wines in bad (< 5), normal (5, 6) and excellent (> 6).
+```{r echo=FALSE, Create quality.range}
+wine$quality.range <- ifelse(wine$quality < 5, 'bad' , ifelse(wine$quality > 6, 'excellent', 'normal'))
+wine$quality.range <- ordered(wine$quality.range, levels = c('bad', 'normal', 'excellent'))
+```
+```{r}
+plot_individual_variable <- function(x, binwidth = 0.1, data = wine){
+  q1 = quantile(data[, x], 0.25)
+  q3 = quantile(data[, x], 0.75)
+  iqr = IQR(data[, x])
+  min_xlim = q1 - 1.5*iqr
+  max_xlim = q3 + 1.5*iqr
+  p1 <- ggplot(data, aes_string(x = x, y = '..density..')) + 
+    geom_histogram(binwidth = binwidth, color = '#FF7799', fill = '#FACCDD') +
+    geom_line(stat = 'density', color = '#FF0000', size = 0.8) +
+    labs(title = 'All Data')
+  p2 <- ggplot(data, aes_string(x = x, y = '..density..')) + 
+    xlim(ifelse(min_xlim > min(data[, x]), min_xlim, min(data[, x])),
+         ifelse(max_xlim < max(data[, x]), max_xlim, max(data[, x]))) +
+    geom_histogram(binwidth = binwidth, color = '#FF7799', fill = '#FACCDD') +
+    geom_line(stat = 'density', color = '#FF0000', size = 0.8) +
+    labs(title = 'Data with Outlier Exclusion') 
+
+  grid.arrange(p1, p2, nrow = 1)
+  summary(data[,x])
+} 
+```
+
+```{r echo=FALSE, Fixed acidity histogram plot}
+plot_individual_variable('fixed.acidity', 0.2)
+```
+```{r echo=FALSE, warning=FALSE, Volatile acidity histogram plot}
+plot_individual_variable('volatile.acidity', 0.02)
+```
+```{r echo=FALSE, warning=FALSE, Citric acid histogram plot}
+plot_individual_variable('citric.acid', 0.05)
+```
+```{r echo=FALSE, Residual sugar histogram plot}
+plot_individual_variable('residual.sugar', 1)
+```
+```{r echo=FALSE, Chlorides histogram plot}
+plot_individual_variable('chlorides', 0.01)
+```
+```{r echo=FALSE, Free sulfur dioxide histogram plot}
+plot_individual_variable('free.sulfur.dioxide', 5)
+```
+```{r echo=FALSE, Total sulfur dioxide histogram plot}
+plot_individual_variable('total.sulfur.dioxide', 10)
+```
+```{r echo=FALSE, Density histogram plot}
+plot_individual_variable('density', 0.0005)
+```
+```{r echo=FALSE, pH histogram plot}
+plot_individual_variable('pH', 0.05)
+```
+```{r echo=FALSE, Sulphates histogram plot}
+plot_individual_variable('sulphates', 0.05)
+```
+```{r echo=FALSE, Alcohol histogram plot}
+plot_individual_variable('alcohol', 0.5)
+```
+
 
 > **Tip**: Make sure that you leave a blank line between the start / end of
 each code block and the end / start of your Markdown text so that it is
@@ -44,6 +116,7 @@ reflect on and summarize what you've found. Use the questions below to help you
 gather your observations and add your own if you have other thoughts!
 
 ### What is the structure of your dataset?
+There are 4,898 white wines in the dataset with ten features, including 11 physicochemical properties and a  discrete variable quality providing a rating between 0 (very bad) and 10 (very excellent).
 
 ### What is/are the main feature(s) of interest in your dataset?
 
