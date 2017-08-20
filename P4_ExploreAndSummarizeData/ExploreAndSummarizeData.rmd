@@ -1,18 +1,16 @@
 White Wine Quality Exploration by Tien Pham
 ========================================================
-
-
 ```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
 # Load all of the packages that you end up using in your analysis in this code
 # chunk.
 library(ggplot2)
 library(dplyr)
+library(tidyr)
 library(ggthemes)
 library(gridExtra)
 theme_set(theme_minimal(10) + 
     theme(plot.title = element_text(face="bold", hjust=0.5)))
 ```
-
 ```{r echo=FALSE, Load_the_Data}
 # Load the Data
 wine <- read.csv('wineQualityWhites.csv')
@@ -39,68 +37,78 @@ str(wine)
 summary(wine)
 ```
 
-
 Create a new variable quality.range for rating the quality of the wines in bad (< 5), normal (5, 6) and excellent (> 6).
 ```{r echo=FALSE, Create quality.range}
 wine$quality.range <- ifelse(wine$quality < 5, 'bad' , ifelse(wine$quality > 6, 'excellent', 'normal'))
 wine$quality.range <- ordered(wine$quality.range, levels = c('bad', 'normal', 'excellent'))
 ```
 ```{r}
-plot_individual_variable <- function(x, binwidth = 0.1, data = wine){
-  q1 = quantile(data[, x], 0.25)
-  q3 = quantile(data[, x], 0.75)
-  iqr = IQR(data[, x])
-  min_xlim = q1 - 1.5*iqr
-  max_xlim = q3 + 1.5*iqr
-  p1 <- ggplot(data, aes_string(x = x, y = '..density..')) + 
+univariate_plot <- function(x, binwidth = 0.1, data = wine){
+  return (ggplot(data, aes_string(x = x, y = '..density..')) + 
     geom_histogram(binwidth = binwidth, color = '#FF7799', fill = '#FACCDD') +
-    geom_line(stat = 'density', color = '#FF0000', size = 0.8) +
-    labs(title = 'All Data')
-  p2 <- ggplot(data, aes_string(x = x, y = '..density..')) + 
-    xlim(ifelse(min_xlim > min(data[, x]), min_xlim, min(data[, x])),
-         ifelse(max_xlim < max(data[, x]), max_xlim, max(data[, x]))) +
-    geom_histogram(binwidth = binwidth, color = '#FF7799', fill = '#FACCDD') +
-    geom_line(stat = 'density', color = '#FF0000', size = 0.8) +
-    labs(title = 'Data with Outlier Exclusion') 
-
-  grid.arrange(p1, p2, nrow = 1)
-  summary(data[,x])
+    geom_line(stat = 'density', color = '#FF0000', size = 0.8))
 } 
 ```
+### Fixed Acidity, Volatile Acidity, Citric Acid
+```{r echo = FALSE, fig.width=4, fig.height=5}
+p1 <- univariate_plot('fixed.acidity', 0.2) + xlab('Fixed Acidity')
+p2 <- univariate_plot('volatile.acidity', 0.02) + xlab('Volatile Acidity')
+p3 <- univariate_plot('citric.acid', 0.02) + xlab('Citric Acid') 
+grid.arrange(p1, p2, p3, ncol = 1)
+```
 
-```{r echo=FALSE, Fixed acidity histogram plot}
-plot_individual_variable('fixed.acidity', 0.2)
+```{r echo=FALSE}
+summary(subset(wine, select = c('fixed.acidity', 'volatile.acidity', 'citric.acid')))
 ```
-```{r echo=FALSE, warning=FALSE, Volatile acidity histogram plot}
-plot_individual_variable('volatile.acidity', 0.02)
+Most wines have the fixed acidity between 6.3 and 7.3 g/dm^3, the volatile acidity between 0.21 and 0.32 g/dm^3, and a citric acid between  0.27 and 0.39 g/dm^3. 
+Volatile acidity is too high can lead to an unpleasant, so we can see the distribution has the tail of the distribution extends to the right.
+The distribution of citric acid has a molecular ion peak at 0.49 g/dm^3 and a lower one at 0.74 g/dm^3.
+
+### Sulfur Dioxide, Sulphates
+```{r echo = FALSE, fig.width=4, fig.height=5}
+p1 <- univariate_plot('total.sulfur.dioxide', 10) + xlab('Total Sulfur Dioxide')
+p2 <- univariate_plot('free.sulfur.dioxide', 5) + xlab('Free Sulfur Dioxide')
+p3 <- univariate_plot('sulphates', 0.05) + xlab('Sulphates') 
+grid.arrange(p1, p2, p3, ncol = 1)
 ```
-```{r echo=FALSE, warning=FALSE, Citric acid histogram plot}
-plot_individual_variable('citric.acid', 0.05)
+```{r echo=FALSE}
+summary(subset(wine, select = c('free.sulfur.dioxide', 'total.sulfur.dioxide', 'sulphates')))
 ```
-```{r echo=FALSE, Residual sugar histogram plot}
-plot_individual_variable('residual.sugar', 1)
+As we know, SO2 is mostly undetectable in wine in low concentrations, but at free SO2 concentrations over 50 ppm, SO2 becomes evident in the nose and taste of wine.
+It is not a surprise for us to see low sulfur dioxide levels. 
+Both of free sulfur dioxide plot and total sulfur dioxide plot have a negative skew. 75% of the wines in this dataset has free sulfur dioxide below 46 mg/dm^3 and total sulfur dioxide below 167 mg/dm^3
+Since sulfates can contribute to sulfur dioxide gas (S02) levels, we can see a positive skew distribution again, in which most of the values fall under 21 mg/dm^3.
+
+### Alcohol, Residual Sugar, Density
+```{r echo = FALSE, fig.width=4, fig.height=5}
+p1 <- univariate_plot('alcohol', 0.2) + xlab('Alcohol')
+p2 <- univariate_plot('density', 0.001) + xlab('Density') 
+p3 <- univariate_plot('residual.sugar', 1) + xlab('Residual Sugar')
+grid.arrange(p1, p2, p3, ncol = 1)
 ```
-```{r echo=FALSE, Chlorides histogram plot}
-plot_individual_variable('chlorides', 0.01)
+```{r}
+univariate_plot('residual.sugar', 0.1) + 
+  scale_x_log10() +
+  xlab('Log[10] Residual Sugar')
 ```
-```{r echo=FALSE, Free sulfur dioxide histogram plot}
-plot_individual_variable('free.sulfur.dioxide', 5)
+```{r echo=FALSE}
+summary(subset(wine, select = c('alcohol', 'residual.sugar', 'density')))
 ```
-```{r echo=FALSE, Total sulfur dioxide histogram plot}
-plot_individual_variable('total.sulfur.dioxide', 10)
+The distribution of alcohol is left skewed. Third quartile, 11.4, showing that 75% of the wines have an alcohol sugar value below 11.4%.
+Transformed the long tail data (using a log10 scale) to understand the distribution of residual sugar better. The transformed residual sugar distribution appears bimodal with the values peaking around 2 or so and again at 9 or so. 
+Density plot looks normally distributed. The mean is 0.9940, and the median is 0.9937. Most of the density values are between 0.99 and 0.1. A tidy amount of outliers is near 1.01 and 1.04.
+### Chlorides, pH
+```{r echo = FALSE, fig.width=4, fig.height=5}
+p1 <- univariate_plot('chlorides', 0.002)
+p2 <- univariate_plot('pH', 0.05) 
+grid.arrange(p1, p2, ncol=1)
 ```
-```{r echo=FALSE, Density histogram plot}
-plot_individual_variable('density', 0.0005)
+
+```{r}
+summary(subset(wine, select = c('pH', 'chlorides')))
 ```
-```{r echo=FALSE, pH histogram plot}
-plot_individual_variable('pH', 0.05)
-```
-```{r echo=FALSE, Sulphates histogram plot}
-plot_individual_variable('sulphates', 0.05)
-```
-```{r echo=FALSE, Alcohol histogram plot}
-plot_individual_variable('alcohol', 0.5)
-```
+The distribution of pH has a bell shaped, with a mean and a median value nearly the same (3.18). In the dataset, the range of pH value is low, between 2.720 and 3.820. So I wonder how pH relates to the concentrations of acids.
+The distribution of chlorides has a very long tail, and most of the chlorides values fall under 0.05 g/dm^3.
 
 
 > **Tip**: Make sure that you leave a blank line between the start / end of
