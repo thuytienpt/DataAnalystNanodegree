@@ -37,18 +37,35 @@ str(wine)
 summary(wine)
 ```
 
-Create a new variable quality.range for rating the quality of the wines in bad (< 5), normal (5, 6) and excellent (> 6).
+
+```{r}
+univariate_plot <- function(x, binwidth = 0.1, data = wine){
+  return (ggplot(data, aes_string(x = x, y = '..density..')) + 
+    geom_histogram(binwidth = binwidth, color = '#FF7799', fill = '#F9E9E9') +
+    geom_line(stat = 'density', color = '#FF0000', size = 0.8))
+} 
+```
+### Quality
+```{r echo = FALSE}
+ggplot(wine, aes(quality)) + 
+    geom_histogram(binwidth = 1, color = '#FF7799', fill = '#F9E9E9')
+```
+```{r echo = FALSE}
+summary(wine$quality)
+```
+In the given dataset, the quality value is between 3 and 9. Almost wines have quality equals 5 or 6.
+Create a new variable quality.range for rating the quality of the wines in bad (< 5), normal (5, 6) and excellent (> 6). Then plot the distribution of this new variable.
 ```{r echo=FALSE, Create quality.range}
+wine$quality <- ordered(wine$quality, levels = seq(3, 9, 1))
 wine$quality.range <- ifelse(wine$quality < 5, 'bad' , ifelse(wine$quality > 6, 'excellent', 'normal'))
 wine$quality.range <- ordered(wine$quality.range, levels = c('bad', 'normal', 'excellent'))
 ```
 ```{r}
-univariate_plot <- function(x, binwidth = 0.1, data = wine){
-  return (ggplot(data, aes_string(x = x, y = '..density..')) + 
-    geom_histogram(binwidth = binwidth, color = '#FF7799', fill = '#FACCDD') +
-    geom_line(stat = 'density', color = '#FF0000', size = 0.8))
-} 
+ggplot(wine, aes(x = quality.range, fill = quality)) +
+  geom_histogram(stat = 'count')
 ```
+Now we can see there are much more normal wines than excellent or bad ones.
+
 ### Fixed Acidity, Volatile Acidity, Citric Acid
 ```{r echo = FALSE, fig.width=4, fig.height=5}
 p1 <- univariate_plot('fixed.acidity', 0.2) + xlab('Fixed Acidity')
