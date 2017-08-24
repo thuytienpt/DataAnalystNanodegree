@@ -8,6 +8,7 @@ library(dplyr)
 library(tidyr)
 library(ggthemes)
 library(gridExtra)
+library(corrplot)
 theme_set(theme_minimal(10) + 
     theme(plot.title = element_text(face="bold", hjust=0.5)))
 ```
@@ -30,7 +31,6 @@ str(wine)
 summary(wine)
 ```
 
-
 ```{r}
 univariate_plot <- function(x, binwidth = 0.1, data = wine){
   return (ggplot(data, aes_string(x = x, y = '..density..')) + 
@@ -49,12 +49,11 @@ summary(wine$quality)
 In the given dataset, the quality value is between 3 and 9. Almost wines have quality equals 5 or 6.
 Create a new variable quality.range for rating the quality of the wines in bad (< 5), normal (5, 6) and excellent (> 6). Then plot the distribution of this new variable.
 ```{r echo=FALSE, Create quality.range}
-wine$quality <- ordered(wine$quality, levels = seq(3, 9, 1))
 wine$quality.range <- ifelse(wine$quality < 5, 'bad' , ifelse(wine$quality > 6, 'excellent', 'normal'))
 wine$quality.range <- ordered(wine$quality.range, levels = c('bad', 'normal', 'excellent'))
 ```
 ```{r}
-ggplot(wine, aes(x = quality.range, fill = quality)) +
+ggplot(wine, aes(x = quality.range, fill = factor(quality))) +
   geom_histogram(stat = 'count', binwidth = 1)
 ```
 Now we can see there are much more normal wines than excellent or bad ones.
@@ -152,10 +151,108 @@ yourself to relationships between a main output feature and one of the
 supporting variables. Try to look at relationships between supporting variables
 as well.
 
-```{r echo=FALSE, Bivariate_Plots}
-
+```{r echo=FALSE, fig.width=5, fig.height=4}
+wine <- wine %>%
+  mutate(pH.round = round(pH, 1),
+        acids = fixed.acidity + volatile.acidity,
+        ratio.citric.acid = citric.acid/acids, 
+        ratio.volatile.acidity = volatile.acidity/acids,
+         ratio.free.sulfur.dioxide = free.sulfur.dioxide/total.sulfur.dioxide,
+         ratio.bound.sulfur.dioxide = 1 - free.sulfur.dioxide/total.sulfur.dioxide) 
+```
+```{r}
+wine %>% 
+  select(-X, -quality.range, -quality) %>%
+  cor() %>%
+  corrplot(type="lower", order="hclust", tl.col="black", tl.srt=10)
 ```
 
+
+```{r echo=FALSE, warning=FALSE, fig.width=5, fig.height=7}
+wine %>%
+  gather(-quality, -X, -quality.range, key = "var", value = "value") %>%
+  ggplot(aes(x = factor(quality), y = value)) +
+    geom_boxplot(aes(fill = factor(quality)), outlier.alpha = 0.1) +
+    facet_wrap(~ var, scales = "free", ncol = 3)
+```
+
+
+#### Main feature : Quality
+```{r echo=FALSE, warning=FALSE}
+quality_histogram <- function(var, legend_position = 'none', data = wine){
+    return (ggplot(data, aes_string(x = 'quality', y = var)) +
+              geom_boxplot(aes(fill = factor(quality)), outlier.alpha = 0.1) +
+              ylim(quantile(data[, var], 0.01), quantile(data[, var], 0.99)) +
+              theme(legend.position = legend_position)) 
+}
+```
+
+```{r echo=FALSE, warning=FALSE, fig.width=5}
+p1 <- quality_histogram('fixed.acidity') 
+p2 <- quality_histogram('volatile.acidity')
+p3 <- quality_histogram('citric.acid')
+p4 <- quality_histogram('pH')
+p5 <- quality_histogram('ratio.volatile.acidity') 
+p6 <- quality_histogram('ratio.citric.acid')
+grid.arrange(p1, p2, p3, p4, p5, p6, nrow=2)
+```
+```{r echo=FALSE, warning=FALSE, fig.width=4, fig.height=1.5}
+ggplot(wine, aes(x = pH, y = fixed.acidity)) + 
+  geom_point(aes(color = pH), alpha = 0.2) +
+  ylim(quantile(wine$fixed.acidity, 0.01), quantile(wine$fixed.acidity, 0.99)) +
+  xlim(quantile(wine$pH, 0.01), quantile(wine$pH, 0.99)) +
+  geom_smooth(color = 'red', method = 'lm') +
+  scale_color_gradient(low = "blue", high = "black")
+```
+
+```{r echo=FALSE, warning=FALSE, fig.width=5}
+p1 <- quality_histogram('total.sulfur.dioxide') 
+p2 <- quality_histogram('free.sulfur.dioxide')
+p3 <- quality_histogram('sulphates')
+p4 <- quality_histogram('ratio.free.sulfur.dioxide')
+grid.arrange(p1, p2, p3, p4, nrow=2)
+```
+```{r echo=FALSE, warning=FALSE, fig.width=5}
+p1 <- quality_histogram('density') 
+p2 <- quality_histogram('alcohol')
+p3 <- quality_histogram('residual.sugar')
+p4 <- quality_histogram('chlorides')
+grid.arrange(p1, p2, p3, p4, nrow=2)
+```
+
+#### Alcohol vs Density
+```{r echo=FALSE, fig.width=4, fig.height=2}
+ggplot(data = wine, aes(x = alcohol, y = density)) +
+  geom_jitter(alpha = 0.5, aes(color = alcohol)) +
+  geom_smooth(color = 'red', method = 'lm')+
+  ylim(min(wine$density), quantile(wine$density, 0.99)) + 
+  scale_color_gradient(low = "#56B1F7", high = "#132B43")
+```
+
+#### Residual Sugar vs Density
+```{r echo=FALSE}
+ggplot(data = wine, aes(x = residual.sugar, y = density)) +
+  geom_point(alpha = 0.2, aes(color = residual.sugar)) +
+  geom_smooth(color = 'red', method = 'lm')+
+  ylim(min(wine$density), quantile(wine$density, 0.99))+
+  xlim(0, quantile(wine$residual.sugar, 0.99))  +
+  scale_color_gradient(low = 'blue', high = 'white') 
+```
+
+#### Residual Sugar vs Alcohol
+```{r echo=FALSE}
+ggplot(data = wine, aes(y = residual.sugar, x = alcohol)) +
+  geom_point(alpha = 0.2, aes(color = alcohol)) +
+  geom_smooth(color = 'red', method = 'lm')+
+  xlim(min(wine$alcohol), quantile(wine$alcohol, 0.99)) +
+  ylim(min(wine$residual.sugar), quantile(wine$residual.sugar, 0.99)) +
+  scale_color_gradient(low = 'blue', high = 'black')
+```
+```{r}
+ggplot(data = wine, aes(y = quality, x = residual.sugar, color = quality)) +
+  geom_jitter(alpha = 0.2) +
+  xlim(0, quantile(wine$residual.sugar,0.9))
+```
 # Bivariate Analysis
 
 ### Talk about some of the relationships you observed in this part of the \
