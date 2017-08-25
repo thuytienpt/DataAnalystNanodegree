@@ -156,7 +156,9 @@ wine <- wine %>%
   mutate(pH.round = round(pH, 1),
         acids = fixed.acidity + volatile.acidity,
         ratio.citric.acid = citric.acid/acids, 
+        ratio.citric = citric.acid/fixed.acidity, 
         ratio.volatile.acidity = volatile.acidity/acids,
+        ratio.fixed.acidity = fixed.acidity/acids,
          ratio.free.sulfur.dioxide = free.sulfur.dioxide/total.sulfur.dioxide,
          ratio.bound.sulfur.dioxide = 1 - free.sulfur.dioxide/total.sulfur.dioxide) 
 ```
@@ -185,24 +187,27 @@ quality_histogram <- function(var, legend_position = 'none', data = wine){
               ylim(quantile(data[, var], 0.01), quantile(data[, var], 0.99)) +
               theme(legend.position = legend_position)) 
 }
+scatter_plot <- function(x, y, data=wine){
+  return(ggplot(data = wine, aes_string(x, y)) + 
+           geom_point(color = '#FF7799', alpha = 0.5, size = 0.8) +
+           geom_smooth(color = 'red', method = 'lm') + 
+           ylim(quantile(wine[, y], 0.01), quantile(wine[, y], 0.99)))
+}
 ```
 
 ```{r echo=FALSE, warning=FALSE, fig.width=5}
 p1 <- quality_histogram('fixed.acidity') 
-p2 <- quality_histogram('volatile.acidity')
+p2 <- quality_histogram('volatile.acidity') 
 p3 <- quality_histogram('citric.acid')
-p4 <- quality_histogram('pH')
-p5 <- quality_histogram('ratio.volatile.acidity') 
-p6 <- quality_histogram('ratio.citric.acid')
-grid.arrange(p1, p2, p3, p4, p5, p6, nrow=2)
+p4 <- quality_histogram('ratio.fixed.acidity')
+p5 <- quality_histogram('pH')
+grid.arrange(p1, p2, p3, p4, p5, ncol=3)
 ```
-```{r echo=FALSE, warning=FALSE, fig.width=4, fig.height=1.5}
-ggplot(wine, aes(x = pH, y = fixed.acidity)) + 
-  geom_point(aes(color = pH), alpha = 0.2) +
-  ylim(quantile(wine$fixed.acidity, 0.01), quantile(wine$fixed.acidity, 0.99)) +
-  xlim(quantile(wine$pH, 0.01), quantile(wine$pH, 0.99)) +
-  geom_smooth(color = 'red', method = 'lm') +
-  scale_color_gradient(low = "blue", high = "black")
+```{r echo=FALSE, warning=FALSE}
+p1 <- scatter_plot('pH', 'fixed.acidity')
+p2 <- scatter_plot('citric.acid', 'ratio.fixed.acidity')+ 
+  xlim(0, quantile(wine$citric.acid, 0.99))
+grid.arrange(p1, p2, ncol=2)
 ```
 
 ```{r echo=FALSE, warning=FALSE, fig.width=5}
@@ -212,6 +217,7 @@ p3 <- quality_histogram('sulphates')
 p4 <- quality_histogram('ratio.free.sulfur.dioxide')
 grid.arrange(p1, p2, p3, p4, nrow=2)
 ```
+
 ```{r echo=FALSE, warning=FALSE, fig.width=5}
 p1 <- quality_histogram('density') 
 p2 <- quality_histogram('alcohol')
@@ -220,39 +226,23 @@ p4 <- quality_histogram('chlorides')
 grid.arrange(p1, p2, p3, p4, nrow=2)
 ```
 
-#### Alcohol vs Density
-```{r echo=FALSE, fig.width=4, fig.height=2}
-ggplot(data = wine, aes(x = alcohol, y = density)) +
-  geom_jitter(alpha = 0.5, aes(color = alcohol)) +
-  geom_smooth(color = 'red', method = 'lm')+
-  ylim(min(wine$density), quantile(wine$density, 0.99)) + 
-  scale_color_gradient(low = "#56B1F7", high = "#132B43")
+
+```{r echo=FALSE, warning=FALSE, fig.width=4, fig.height=3}
+p1 <- scatter_plot('alcohol', 'density')
+p2 <- scatter_plot('alcohol', 'total.sulfur.dioxide')
+p3 <- scatter_plot('alcohol', 'residual.sugar')
+p4 <- scatter_plot('alcohol', 'chlorides')
+grid.arrange(p1, p2, p3, p4, ncol=2)
 ```
 
-#### Residual Sugar vs Density
-```{r echo=FALSE}
-ggplot(data = wine, aes(x = residual.sugar, y = density)) +
-  geom_point(alpha = 0.2, aes(color = residual.sugar)) +
-  geom_smooth(color = 'red', method = 'lm')+
-  ylim(min(wine$density), quantile(wine$density, 0.99))+
-  xlim(0, quantile(wine$residual.sugar, 0.99))  +
-  scale_color_gradient(low = 'blue', high = 'white') 
+```{r echo=FALSE, warning=FALSE, fig.width=4, fig.height=3}
+p1 <- scatter_plot('chlorides', 'residual.sugar')
+p2 <- scatter_plot('residual.sugar', 'density')
+p3 <- scatter_plot('chlorides', 'density')
+p4 <- scatter_plot('alcohol', 'chlorides')
+grid.arrange(p1, p2, p3, p4, ncol=2)
 ```
 
-#### Residual Sugar vs Alcohol
-```{r echo=FALSE}
-ggplot(data = wine, aes(y = residual.sugar, x = alcohol)) +
-  geom_point(alpha = 0.2, aes(color = alcohol)) +
-  geom_smooth(color = 'red', method = 'lm')+
-  xlim(min(wine$alcohol), quantile(wine$alcohol, 0.99)) +
-  ylim(min(wine$residual.sugar), quantile(wine$residual.sugar, 0.99)) +
-  scale_color_gradient(low = 'blue', high = 'black')
-```
-```{r}
-ggplot(data = wine, aes(y = quality, x = residual.sugar, color = quality)) +
-  geom_jitter(alpha = 0.2) +
-  xlim(0, quantile(wine$residual.sugar,0.9))
-```
 # Bivariate Analysis
 
 ### Talk about some of the relationships you observed in this part of the \
